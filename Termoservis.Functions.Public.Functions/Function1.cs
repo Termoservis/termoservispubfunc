@@ -17,9 +17,17 @@ namespace Termoservis.Functions.Public.Functions
 {
     internal static class AppConfiguration
     {
-        public static string Auth0Issuer => Environment.GetEnvironmentVariable("AUTH0_ISSUER");
+        public static string Auth0Issuer => GetRequiredEnvironmentVariable("AUTH0_ISSUER");
 
-        public static string Auth0Audience => Environment.GetEnvironmentVariable("AUTH0_AUDIENCE");
+        public static string Auth0Audience => GetRequiredEnvironmentVariable("AUTH0_AUDIENCE");
+
+        private static string GetRequiredEnvironmentVariable(string key)
+        {
+            var value = Environment.GetEnvironmentVariable(key);
+            if (value == null)
+                throw new NullReferenceException($"Application configuration invalid for `${key}`");
+            return value;
+        }
     }
 
     public static class Function1
