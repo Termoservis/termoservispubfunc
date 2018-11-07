@@ -32,7 +32,8 @@ namespace Termoservis.Functions.Public.Functions
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            var principal = await Security.ValidateTokenAsync(req.GetAuthorizationHeader());
+            var authHeader = req.GetAuthorizationHeader();
+            var principal = await Security.ValidateTokenAsync(authHeader);
             if (principal == null)
                 return new UnauthorizedResult();
 
@@ -91,7 +92,7 @@ namespace Termoservis.Functions.Public.Functions
                 ValidAudience = audience,
                 ValidateAudience = true,
                 ValidIssuer = issuer,
-                ValidateIssuer = true,
+                ValidateIssuer = false,
                 ValidateIssuerSigningKey = true,
                 ValidateLifetime = true,
                 IssuerSigningKeys = config.SigningKeys
