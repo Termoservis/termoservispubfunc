@@ -25,14 +25,16 @@ namespace Termoservis.Functions.Public.Functions
         {
             var value = Environment.GetEnvironmentVariable(key);
             if (value == null)
-                throw new NullReferenceException($"Application configuration invalid for `${key}`");
+                throw new NullReferenceException($"Application configuration invalid for `{key}`");
             return value;
         }
     }
 
+    // ReSharper disable once UnusedMember.Global
     public static class Function1
     {
         [FunctionName("Function1")]
+        // ReSharper disable once UnusedMember.Global
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             CancellationToken cancellationToken,
@@ -94,7 +96,7 @@ namespace Termoservis.Functions.Public.Functions
             var issuer = AppConfiguration.Auth0Issuer;
             var audience = AppConfiguration.Auth0Audience;
 
-            var validationParameter = new TokenValidationParameters()
+            var validationParameter = new TokenValidationParameters
             {
                 RequireSignedTokens = true,
                 ValidAudience = audience,
